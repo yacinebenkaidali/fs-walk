@@ -8,7 +8,7 @@ import (
 )
 
 func filterOut(path string, minSize int64, ext string, info fs.FileInfo) bool {
-	if !info.IsDir() && minSize > info.Size() {
+	if info.IsDir() || minSize > info.Size() {
 		return true
 	}
 	if ext != "" && filepath.Ext(path) != ext {
