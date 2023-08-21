@@ -73,10 +73,14 @@ func TestDelExtension(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			var outBuffer bytes.Buffer
+			var logBufer bytes.Buffer
+
 			dirname, cleanup := createTempDir(t, map[string]int{
 				tc.cfg.ext:     tc.nDelete,
 				tc.extNoDelete: tc.nNoDelete,
 			})
+
+			tc.cfg.log = &logBufer
 
 			defer cleanup()
 			if err := run(dirname, &outBuffer, tc.cfg); err != nil {
@@ -94,6 +98,13 @@ func TestDelExtension(t *testing.T) {
 			if len(filesLeft) != tc.nNoDelete {
 				t.Errorf("Expected %d files left, got %d instead", tc.nNoDelete, len(filesLeft))
 			}
+
+			logLines := len(bytes.Split(logBufer.Bytes(), []byte("\n")))
+
+			if logLines != tc.nDelete+1 {
+				t.Errorf("Expected %d lines wrote to the log file, got %d instead", tc.nDelete, logLines)
+			}
+
 		})
 	}
 }
