@@ -28,7 +28,7 @@ var (
 func main() {
 	root := flag.String("root", ".", "Root directory to start")
 	list := flag.Bool("list", false, "List files only")
-	exts := flag.String("ext", "", "File extension to filter out")
+	exts := flag.String("ext", "", "File extensions to filter out comma separated.")
 	logFile := flag.String("log", "", "Log deleted files to this file")
 	size := flag.Int64("size", 0, "Minimum file size")
 	del := flag.Bool("del", false, "Delete matched files")
@@ -55,11 +55,10 @@ func main() {
 	}
 	_ = c
 
-	fmt.Println(*root, c.ext, len(c.ext), c.ext[1])
-	// if err := run(*root, os.Stdout, c); err != nil {
-	// 	fmt.Fprintln(os.Stderr, err)
-	// 	os.Exit(1)
-	// }
+	if err := run(*root, os.Stdout, c); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 }
 
 func run(root string, out io.Writer, c config) error {
