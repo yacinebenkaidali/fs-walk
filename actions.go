@@ -8,13 +8,19 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+
+	"slices"
 )
 
-func filterOut(path string, minSize int64, ext string, info fs.FileInfo) bool {
+func filterOut(path string, minSize int64, ext []string, info fs.FileInfo) bool {
 	if info.IsDir() || minSize > info.Size() {
 		return true
 	}
-	if ext != "" && filepath.Ext(path) != ext {
+	//When no extension is selected return false to include all files
+	if len(ext) == 1 && ext[0] == "" {
+		return false
+	}
+	if !slices.Contains(ext, filepath.Ext(path)) {
 		return true
 	}
 	return false

@@ -8,10 +8,11 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 type config struct {
-	ext     string
+	ext     []string
 	size    int64
 	list    bool
 	del     bool
@@ -27,7 +28,7 @@ var (
 func main() {
 	root := flag.String("root", ".", "Root directory to start")
 	list := flag.Bool("list", false, "List files only")
-	ext := flag.String("ext", "", "File extension to filter out")
+	exts := flag.String("ext", "", "File extension to filter out")
 	logFile := flag.String("log", "", "Log deleted files to this file")
 	size := flag.Int64("size", 0, "Minimum file size")
 	del := flag.Bool("del", false, "Delete matched files")
@@ -45,17 +46,20 @@ func main() {
 	}
 
 	c := config{
-		ext:     *ext,
+		ext:     strings.Split((*exts), ","),
 		list:    *list,
 		size:    *size,
 		del:     *del,
 		log:     f,
 		archive: *archiveDir,
 	}
-	if err := run(*root, os.Stdout, c); err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
-	}
+	_ = c
+
+	fmt.Println(*root, c.ext, len(c.ext), c.ext[1])
+	// if err := run(*root, os.Stdout, c); err != nil {
+	// 	fmt.Fprintln(os.Stderr, err)
+	// 	os.Exit(1)
+	// }
 }
 
 func run(root string, out io.Writer, c config) error {
