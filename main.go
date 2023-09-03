@@ -28,7 +28,7 @@ var (
 func main() {
 	root := flag.String("root", ".", "Root directory to start")
 	list := flag.Bool("list", false, "List files only")
-	exts := flag.String("ext", "", "File extensions to filter out comma separated.")
+	exts := flag.String("ext", "", "File extensions to filter out, comma separated.")
 	logFile := flag.String("log", "", "Log deleted files to this file")
 	size := flag.Int64("size", 0, "Minimum file size")
 	del := flag.Bool("del", false, "Delete matched files")
