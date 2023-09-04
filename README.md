@@ -1,6 +1,6 @@
-# mdp-preview &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)
+# fs-walk &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)
 
-A Cli tool that allows users to convert markdown files to html and preview them in the default browser.
+A Cli tool that allows users walk recursively a directory, list it's content, delete or archive its files.
 
 ## Installation & Usage
 
